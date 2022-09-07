@@ -4,10 +4,13 @@ const debug = require('debug')('app:server');
 const colors = require('colors');
 const dotenv = require('dotenv').config();
 const morgan = require('morgan');
+const connectDB = require('./config/db');
 
 const errorHandler = require('./middleware/errorMiddleware');
 
 const userRoutes = require('./routes/userRoutes');
+
+connectDB();
 
 const app = express();
 
