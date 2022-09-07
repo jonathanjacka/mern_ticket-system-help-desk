@@ -1,0 +1,25 @@
+{
+  "name": "ticket-system",
+  "version": "1.0.0",
+  "description": "Support ticket helpdesk",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js",
+    "server": "DEBUG=app:* nodemon backend/server.js"
+  },
+  "keywords": [],
+  "author": "Jonathan Jacka (https://jonathanjacka.com/)",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.5.4"
+  },
+  "devDependencies": {
+    "colors": "^1.4.0",
+    "debug": "^4.3.4",
+    "dotenv": "^16.0.2",
+    "nodemon": "^2.0.19"
+  }
+}
