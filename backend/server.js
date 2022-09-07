@@ -5,9 +5,11 @@ const colors = require('colors');
 const dotenv = require('dotenv').config();
 const morgan = require('morgan');
 
-const app = express();
+const errorHandler = require('./middleware/errorMiddleware');
 
 const userRoutes = require('./routes/userRoutes');
+
+const app = express();
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -17,7 +19,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Routes
 app.use('/api/users', userRoutes);
+
+//Error Handler
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
