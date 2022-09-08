@@ -1,7 +1,7 @@
 const debug = require('debug')('app:controllers');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const generateToken = require('../utilities/generateToken');
 
 const User = require('../models/UserModel');
 
@@ -41,6 +41,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
       _id: newUser._id,
       name: newUser.name,
       email: newUser.email,
+      token: generateToken(newUser._id),
     });
   }
 });
@@ -64,6 +65,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      token: generateToken(user._id),
     });
   }
 });
