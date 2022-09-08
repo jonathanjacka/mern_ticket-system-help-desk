@@ -1,6 +1,7 @@
 const debug = require('debug')('app:controllers');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/UserModel');
 
@@ -50,5 +51,19 @@ exports.registerUser = asyncHandler(async (req, res) => {
  * @access   Public
  */
 exports.loginUser = asyncHandler(async (req, res) => {
-  res.json({ message: 'Login user' });
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+  const validPassword = await bcrypt.compare(password, user.password);
+
+  if (!user || !validPassword) {
+    res.status(401);
+    throw new Error('Invalid login credentials');
+  } else {
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  }
 });
