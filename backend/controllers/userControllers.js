@@ -69,3 +69,17 @@ exports.loginUser = asyncHandler(async (req, res) => {
     });
   }
 });
+
+/**
+ * @desc     get current user logged in
+ * @route    GET api/users/currentUser
+ * @access   Private
+ */
+exports.getCurrentUser = asyncHandler(async (req, res) => {
+  const currentUser = {
+    name: req.user.name,
+    email: req.user.email,
+    id: req.user._id,
+  };
+  res.json(currentUser);
+});
