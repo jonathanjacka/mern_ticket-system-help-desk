@@ -1,5 +1,8 @@
 const debug = require('debug')('app:controllers');
 const asyncHandler = require('express-async-handler');
+const bcrypt = require('bcryptjs');
+
+const User = require('../models/UserModel');
 
 /**
  * @desc     Register a new user
@@ -14,7 +17,31 @@ exports.registerUser = asyncHandler(async (req, res) => {
     throw new Error('Please include all fields to register!');
   }
 
-  res.json({ message: 'Register user' });
+  const userExists = await User.findOne({ email });
+  if (userExists) {
+    res.status(400);
+    throw new Error('User email already exists');
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  const newUser = await User.create({
+    name,
+    email,
+    password: hashedPassword,
+  });
+
+  if (!newUser) {
+    res.status(400);
+    throw new Error('Invalid user data; user not created');
+  } else {
+    res.status(201).json({
+      _id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+    });
+  }
 });
 
 /**
