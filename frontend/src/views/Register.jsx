@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { FaUser } from 'react-icons/fa';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { register } from '../features/auth/authSlice';
+
 import { toast } from 'react-toastify';
 
 function Register() {
@@ -14,6 +17,9 @@ function Register() {
 
   const { name, email, password, passwordConfirm } = formData;
 
+  const dispatch = useDispatch();
+  const { user, isLoading, isSuccesss, message } = useSelector((state) => state.auth);
+
   const handleChange = (event) => {
     setFormData((prevState) => ({ ...prevState, [event.target.name]: event.target.value }))
   };
@@ -23,6 +29,14 @@ function Register() {
     
     if(password !== passwordConfirm) {
       toast.error('Passwords must match!');
+    } else {
+      const userData = {
+        name, 
+        email, 
+        password
+      }
+
+      dispatch(register(userData));
     }
   }
 
