@@ -24,13 +24,12 @@ function Register() {
 
   useEffect( () => {
     if(isError) {
-      console.log('Message: ', message);
       toast.error(message);
     }
 
-    if(isSuccesss && user) {
-      navigate('/');
+    if(isSuccesss || user) {
       toast.success('Registration successful!');
+      navigate('/');
     }
 
     dispatch(reset());
