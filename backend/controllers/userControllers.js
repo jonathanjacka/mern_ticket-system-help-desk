@@ -1,4 +1,4 @@
-const debug = require('debug')('app:controllers');
+const debug = require('debug')('app:userController');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 const generateToken = require('../utilities/generateToken');

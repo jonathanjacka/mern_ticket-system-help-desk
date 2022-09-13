@@ -9,6 +9,7 @@ const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorMiddleware');
 
 const userRoutes = require('./routes/userRoutes');
+const ticketRoutes = require('./routes/ticketRoutes');
 
 connectDB();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Routes
 app.use('/api/users', userRoutes);
+app.use('/api/tickets', ticketRoutes);
 
 //Error Handler
 app.use(errorHandler);
