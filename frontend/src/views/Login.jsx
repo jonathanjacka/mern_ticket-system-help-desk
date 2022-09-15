@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { login, reset } from '../features/auth/authSlice';
 
 import { toast } from 'react-toastify';
+import Spinner from '../components/Spinner';
 
 function Login() {
 
@@ -28,7 +29,7 @@ function Login() {
     }
 
     if(isSuccesss || user) {
-      toast.success('Registration successful!');
+      toast.success('Login successful!');
       navigate('/');
     }
 
@@ -47,6 +48,10 @@ function Login() {
       password
     }
     dispatch(login(userData));
+  }
+
+  if(isLoading) {
+    return <Spinner />
   }
 
   return (
