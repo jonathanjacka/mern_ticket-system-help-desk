@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './views/Home';
 import Register from './views/Register';
 import Login from './views/Login';
+import NewTicket from './views/NewTicket';
 
 import Header from './components/Header';
 
@@ -20,6 +21,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/new-ticket' element={<NewTicket />} />
           </Routes>
         </div>
       </Router>
