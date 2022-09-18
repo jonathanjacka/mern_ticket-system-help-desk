@@ -5,6 +5,7 @@ import Home from './views/Home';
 import Register from './views/Register';
 import Login from './views/Login';
 import NewTicket from './views/NewTicket';
+import PrivateRoute from './components/PrivateRoute';
 
 import Header from './components/Header';
 
@@ -21,7 +22,10 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path='/new-ticket' element={<NewTicket />} />
+
+            <Route path='/new-ticket' element={<PrivateRoute />}>
+              <Route path='/new-ticket' element={<NewTicket />} />
+            </Route>
           </Routes>
         </div>
       </Router>
