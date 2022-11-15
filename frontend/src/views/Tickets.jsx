@@ -4,6 +4,7 @@ import { getTickets, reset } from '../features/tickets/ticketSlice';
 
 import Spinner from '../components/Spinner';
 import BackButton from '../components/BackButton';
+import TicketItem from '../components/TicketItem';
 
 
 function Tickets() {
@@ -27,9 +28,19 @@ function Tickets() {
 
 
   return (
-    <div>
-      <h1>All your tickets</h1>
-    </div>
+    <>
+    <BackButton url='/' />
+      <h1>Your Tickets</h1>
+      <div className="tickets">
+        <div className="ticket-headings">
+            <div>Date</div>
+            <div>Product</div>
+            <div>Status</div>
+            <div></div>
+        </div>
+        {tickets.map(ticket => <TicketItem key={ticket._id} ticket={ticket}/>)}
+      </div>
+    </>
   )
 }
 
