@@ -4,6 +4,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './views/Home';
 import Register from './views/Register';
 import Login from './views/Login';
+import NewTicket from './views/NewTicket';
+import Tickets from './views/Tickets';
+import Ticket from './views/Ticket';
+import PrivateRoute from './components/PrivateRoute';
 
 import Header from './components/Header';
 
@@ -20,6 +24,18 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+
+            <Route path='/new-ticket' element={<PrivateRoute />}>
+              <Route path='/new-ticket' element={<NewTicket />} />
+            </Route>
+
+            <Route path='/tickets' element={<PrivateRoute />}>
+              <Route path='/tickets' element={<Tickets />} />
+            </Route>
+
+            <Route path='/tickets/:ticketId' element={<PrivateRoute />}>
+              <Route path='/tickets/:ticketId' element={<Ticket />} />
+            </Route>
           </Routes>
         </div>
       </Router>
