@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const notesRouter = require('./notesRoutes');
 
 const protectedRoute = require('../middleware/authMiddleware');
 
@@ -9,6 +10,8 @@ const {
   updateTicket,
   deleteTicket,
 } = require('../controllers/ticketsController');
+
+router.use('/:ticketId/notes', notesRouter);
 
 router.get('/', protectedRoute, getAllUserTickets);
 router.get('/:id', protectedRoute, getSingleTicket);
