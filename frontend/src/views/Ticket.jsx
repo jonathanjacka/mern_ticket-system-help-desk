@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -10,8 +10,28 @@ import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 
 import { toast } from 'react-toastify';
+import Modal from 'react-modal';
+import  { FaPlus } from 'react-icons/fa';
+
+const modalStyles = {
+  content: {
+    width: '600px',
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    position: 'relative'
+  }
+}
+
+Modal.setAppElement('#root');
 
 function Ticket() {
+
+  const [ modalIsOpen, setModalIsOpen ] = useState(false);
+  const [ noteText, setNoteText ] = useState('');
 
   const navigate = useNavigate();
 
@@ -38,6 +58,21 @@ function Ticket() {
     dispatch(closeTicket(ticketId));
     toast.success('Ticket successfully closed!');
     navigate('/tickets');
+  }
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  }
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  }
+
+  const onNoteSubmit = (event) => {
+    event.preventDefault();
+    console.log('New note submitted!');
+    setNoteText('');
+    closeModal();
   }
 
   if(isLoading || notesIsLoading) {
@@ -70,6 +105,24 @@ function Ticket() {
         </div>
         <h2>Notes:</h2>
       </header>
+
+      {ticket.status !== 'closed' && (
+        <button className='btn' onClick={openModal}><FaPlus />Add Note</button>
+      )}
+
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={modalStyles} contentLabel='Add Note'>
+        <h2>Add Note</h2>
+        <button className="btn-close" onClick={closeModal}>X</button>
+        <form onSubmit={onNoteSubmit}>
+          <div className="form-group">
+            <textarea name="noteText" id="noteText" className='form-control' placeholder='Note text' value={noteText} onChange={(event) => setNoteText(event.target.value)} style={{resize: 'none'}}></textarea>
+          </div>
+          <div className="form-group">
+            <button className="btn" type='submit'>Add Note</button>
+          </div>
+        </form>
+      </Modal>
+
       {notes.map(note => <NoteItem key={note._id} note={note}/>)}
 
       {ticket.status !== 'closed' && (
