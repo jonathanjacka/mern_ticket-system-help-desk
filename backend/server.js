@@ -21,11 +21,20 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 //Routes
 app.use('/api/users', userRoutes);
 app.use('/api/tickets', ticketRoutes);
+
+//Serve frontend
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(__dirname, '../', 'frontend', 'build', 'index.html');
+  });
+} else {
+  app.use(express.static(path.join(__dirname, 'public')));
+}
 
 //Error Handler
 app.use(errorHandler);
