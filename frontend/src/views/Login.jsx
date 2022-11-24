@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FaSignInAlt } from 'react-icons/fa';
 
 import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { login, reset } from '../features/auth/authSlice';
+import { login } from '../features/auth/authSlice';
 
 import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
@@ -19,22 +19,9 @@ function Login() {
   const { email, password } = formData;
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
-  const { user, isLoading, isSuccesss, isError, message } = useSelector((state) => state.auth);
 
-  useEffect( () => {
-    if(isError) {
-      toast.error(message);
-    }
-
-    if(isSuccesss || user) {
-      toast.success('Login successful!');
-      navigate('/');
-    }
-
-    dispatch(reset());
-  }, [isError, isSuccesss, user, message, navigate, dispatch]);
+  const {isLoading} = useSelector((state) => state.auth);
 
   const handleChange = (event) => {
     setFormData((prevState) => ({ ...prevState, [event.target.name]: event.target.value }))
@@ -47,7 +34,14 @@ function Login() {
       email,
       password
     }
-    dispatch(login(userData));
+
+    dispatch(login(userData))
+    .unwrap()
+    .then(user => {
+      toast.success(`Successfully logged in as user ${user.name}!`);
+      navigate('/');
+    })
+    .catch(error => toast.error('Error - unable to log in'));
   }
 
   if(isLoading) {
