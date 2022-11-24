@@ -23,7 +23,6 @@
     "mongoose": "^6.5.4"
   },
   "devDependencies": {
-    "colors": "^1.4.0",
     "debug": "^4.3.4",
     "dotenv": "^16.0.2",
     "morgan": "^1.10.0",
