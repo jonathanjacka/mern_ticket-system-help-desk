@@ -82,7 +82,7 @@ function Ticket() {
   if(isError) {
     return (
       <>
-        <BackButton url='/tickets'/>
+        <BackButton />
         <h3>Something went wrong - unable to retrieve ticket information at this time.</h3>
       </>
     )
