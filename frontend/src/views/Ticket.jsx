@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { getTicket, closeTicket, reset } from '../features/tickets/ticketSlice';
-import { getNotes, createNote, reset as notesReset } from '../features/notes/notesSlice';
+import { getTicket, closeTicket } from '../features/tickets/ticketSlice';
+import { getNotes, createNote } from '../features/notes/notesSlice';
 
 import NoteItem from '../components/NoteItem';
 import BackButton from '../components/BackButton';
@@ -35,8 +35,8 @@ function Ticket() {
 
   const navigate = useNavigate();
 
-  const { ticket, isLoading, isSuccess, isError, message } = useSelector(state => state.ticket);
-  const { notes, isLoading: notesIsLoading , isSuccess: notesIsSuccess, isError: notesIsError, message: notesMessage } = useSelector(state => state.note);
+  const { ticket, isLoading, isError, message } = useSelector(state => state.ticket);
+  const { notes, isLoading: notesIsLoading, isError: notesIsError, message: notesMessage } = useSelector(state => state.note);
   const { ticketId } = useParams();
   const dispatch = useDispatch();
   
