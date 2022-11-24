@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 //Routes
 app.use('/api/users', userRoutes);
@@ -33,7 +33,11 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(__dirname, '../frontend/build/index.html');
   });
 } else {
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.get('/', (req, res) =>
+    res
+      .status(200)
+      .json({ message: 'Welcome to the ticket support system API' })
+  );
 }
 
 //Error Handler
