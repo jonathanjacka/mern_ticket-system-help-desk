@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { getTicket, closeTicket, reset } from '../features/tickets/ticketSlice';
-import { getNotes, reset as notesReset } from '../features/notes/notesSlice';
+import { getNotes, createNote, reset as notesReset } from '../features/notes/notesSlice';
 
 import NoteItem from '../components/NoteItem';
 import BackButton from '../components/BackButton';
@@ -70,7 +70,7 @@ function Ticket() {
 
   const onNoteSubmit = (event) => {
     event.preventDefault();
-    console.log('New note submitted!');
+    dispatch(createNote({noteText, ticketId}))
     setNoteText('');
     closeModal();
   }
