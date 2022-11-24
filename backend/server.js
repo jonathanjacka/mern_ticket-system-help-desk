@@ -42,9 +42,11 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
-  debug(
-    colors.inverse.green(
-      `Server is running in ${process.env.NODE_ENV} on port ${PORT} - Hello there...`
-    )
-  );
+  if (process.env.NODE_ENV === 'development') {
+    debug(
+      colors.inverse.green(
+        `Server is running in ${process.env.NODE_ENV} on port ${PORT} - Hello there...`
+      )
+    );
+  }
 });
