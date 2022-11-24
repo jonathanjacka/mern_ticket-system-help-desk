@@ -25,32 +25,17 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
 
-            <Route
-              path='/new-ticket'
-              element={
-                <PrivateRoute>
-                  <NewTicket />
-                </PrivateRoute>
-              }
-            />
+            <Route path='/new-ticket' element={<PrivateRoute />}>
+              <Route path='/new-ticket' element={<NewTicket />} />
+            </Route>
 
-            <Route
-              path='/tickets'
-              element={
-                <PrivateRoute>
-                  <Tickets />
-                </PrivateRoute>
-              }
-            />
+            <Route path='/tickets' element={<PrivateRoute />}>
+              <Route path='/tickets' element={<Tickets />} />
+            </Route>
 
-            <Route
-              path='/tickets/:ticketId'
-              element={
-                <PrivateRoute>
-                  <Ticket />
-                </PrivateRoute>
-              }
-            />
+            <Route path='/tickets/:ticketId' element={<PrivateRoute />}>
+              <Route path='/tickets/:ticketId' element={<Ticket />} />
+            </Route>
           </Routes>
         </div>
       </Router>
