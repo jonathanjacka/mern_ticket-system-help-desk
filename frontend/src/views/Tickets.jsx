@@ -9,23 +9,16 @@ import TicketItem from '../components/TicketItem';
 
 function Tickets() {
 
-    const { tickets, isLoading, isSuccess } = useSelector(state => state.ticket);
+    const { tickets } = useSelector(state => state.ticket);
     const dispatch = useDispatch();
 
     useEffect( () => {
         dispatch(getTickets());
+    }, [dispatch]);
 
-        return () => {
-            if(isSuccess) {
-                dispatch(ticketsReset());
-            }
-        }
-    }, [dispatch, isSuccess]);
-
-    if(isLoading) {
+    if(!tickets) {
         return <Spinner />;
     }
-
 
   return (
     <>
