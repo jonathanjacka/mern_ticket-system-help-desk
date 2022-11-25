@@ -34,30 +34,36 @@ function Ticket() {
   const [ noteText, setNoteText ] = useState('');
 
   const navigate = useNavigate();
-
-  const { ticket, isLoading, isError, message } = useSelector(state => state.ticket);
-  const { notes, isLoading: notesIsLoading, isError: notesIsError, message: notesMessage } = useSelector(state => state.note);
-  const { ticketId } = useParams();
   const dispatch = useDispatch();
+
+  const { ticket, isError: ticketError } = useSelector(state => state.ticket);
+  const { notes, isError: notesError } = useSelector(state => state.note);
+  const { ticketId } = useParams();
   
   useEffect( () => {
-    if(isError) {
-      toast.error(message);
+
+    if(ticketError) {
+      toast.error('Unable to retrieve ticket: ' + ticketId);
     }
 
-    if(notesIsError) {
-      toast.error(notesMessage);
+    if(notesError) {
+      toast.error('Unable to retrieve notes to ticket: ' + ticketId);
     }
 
     dispatch(getTicket(ticketId));
     dispatch(getNotes(ticketId));
     
-  }, [isError, notesIsError, message, notesMessage, dispatch, ticketId]);
+  }, [dispatch, ticketId, notesError, ticketError]);
 
   const onTicketClose = () => {
-    dispatch(closeTicket(ticketId));
-    toast.success('Ticket successfully closed!');
-    navigate('/tickets');
+    dispatch(closeTicket(ticketId))
+    .unwrap()
+    .then(() => {
+      toast.success('Ticket successfully closed!');
+      navigate('/tickets');
+    })
+    .catch(error => toast.error('Error - ticket could not be closed'))
+
   }
 
   const openModal = () => {
@@ -71,21 +77,18 @@ function Ticket() {
   const onNoteSubmit = (event) => {
     event.preventDefault();
     dispatch(createNote({noteText, ticketId}))
-    setNoteText('');
-    closeModal();
+    .unwrap()
+    .then(() => {
+      toast.success('Note created successfully');
+      setNoteText('');
+      closeModal();
+    })
+    .catch(error => toast.error('Error: unable to create new note'));
+
   }
 
-  if(isLoading || notesIsLoading) {
-    return <Spinner />;
-  }
-
-  if(isError) {
-    return (
-      <>
-        <BackButton />
-        <h3>Something went wrong - unable to retrieve ticket information at this time.</h3>
-      </>
-    )
+  if(!ticket) {
+    return <Spinner />
   }
 
   return (

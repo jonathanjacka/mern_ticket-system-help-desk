@@ -1,20 +1,26 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTickets, reset as ticketsReset } from '../features/tickets/ticketSlice';
+import { getTickets } from '../features/tickets/ticketSlice';
 
 import Spinner from '../components/Spinner';
 import BackButton from '../components/BackButton';
 import TicketItem from '../components/TicketItem';
 
+import { toast } from 'react-toastify';
+
 
 function Tickets() {
 
-    const { tickets } = useSelector(state => state.ticket);
+    const { tickets, isError: ticketError } = useSelector(state => state.ticket);
     const dispatch = useDispatch();
 
     useEffect( () => {
+
+      if(ticketError) {
+        toast.error('Unable to retrieve tickets')
+      }
         dispatch(getTickets());
-    }, [dispatch]);
+    }, [dispatch, ticketError]);
 
     if(!tickets) {
         return <Spinner />;
